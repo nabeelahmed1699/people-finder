@@ -1,0 +1,37 @@
+{
+	"edhi": [
+		{
+			"id": "edhi1",
+			"name": "ali hassan",
+			"age": 25,
+			"location found": "busi more",
+			"dateFound": "November 25,2007",
+			"mental condition": "fine",
+			"physical condition": "charsi",
+			"pic": "./src/images ",
+			"description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sed minus. Ut, a officia unde odit quia tenetur aut numquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut facilis ea consequuntur dolore animi neque hic molestias minus dolor iusto."
+		},
+		{
+			"id": "edhi2",
+			"name": "Hanzla bukhari",
+			"age": 45,
+			"location found": "shareek pura",
+			"dateFound": "september 15,2021",
+			"mental condition": "fine",
+			"physical condition": "blind",
+			"pic": "./src/images ",
+			"description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sed minus. Ut, a officia unde odit quia tenetur aut numquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut facilis ea consequuntur dolore animi neque hic molestias minus dolor iusto."
+		},
+		{
+			"id": "edhi1",
+			"name": "Sahir ali",
+			"age": 65,
+			"location found": "busi more",
+			"dateFound": "january 25,2012",
+			"mental condition": "fine",
+			"physical condition": "fine",
+			"pic": "./src/images ",
+			"description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sed minus. Ut, a officia unde odit quia tenetur aut numquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut facilis ea consequuntur dolore animi neque hic molestias minus dolor iusto."
+		}
+	]
+}
