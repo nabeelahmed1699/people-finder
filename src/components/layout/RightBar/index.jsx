@@ -69,7 +69,7 @@ const Content = () => {
 
 	const handleNameSearch=()=>{
      console.log("namee",personName);
-	 let filterdData=new  nameSearch(personName) 
+	 let filterdData= nameSearch(personName) 
 	 // filtereddata ko sync krna hy baqi api call sy data a rha hy correctly jidr bejna hy bej dena
 	}
 	
