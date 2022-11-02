@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import axios from "axios";
+import { BASE_URL } from "../../constants";
+import { nameSearch } from '../../apiCalls';
+
 import {
 	Card,
 	CardContent,
@@ -59,6 +63,22 @@ const RightBar = ({ open, openDrawer, closeDrawer }) => {
 };
 
 const Content = () => {
+
+    const [personName,setPersonName]= useState("");
+	
+
+	const handleNameSearch=()=>{
+     console.log("namee",personName);
+	 let filterdData=new  nameSearch(personName) 
+	 // filtereddata ko sync krna hy baqi api call sy data a rha hy correctly jidr bejna hy bej dena
+	}
+	
+
+///////////////////////////////////////  bad handles
+	const handlePersonNameChange=(e)=>{
+       setPersonName(e.target.value)
+	}
+ /////////////////////////////////////////////////
 	return (
 		<>
 			<CardContent>
@@ -75,13 +95,15 @@ const Content = () => {
 							fullWidth
 							label='Name'
 							size='small'
+							value={personName}
+							onChange={handlePersonNameChange}
 							sx={{
 								mt: 2,
 								// '.MuiInputBase-input.MuiOutlinedInput-input': { py: 1 },
 							}}
 						/>
 						<Box sx={{ width: '120px', mt: 1, ml: 'auto' }}>
-							<Button fullWidth variant='contained'>
+							<Button fullWidth variant='contained' onClick={handleNameSearch}>
 								Search
 							</Button>
 						</Box>
