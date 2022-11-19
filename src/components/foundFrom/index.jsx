@@ -75,6 +75,13 @@ export default function FoundForm({ open, setOpen }) {
 						/>
 					</Grid>
 					<Grid item xs={12}>
+						<TextField
+							label='Your Relation with him/her'
+							size='small'
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12}>
 						<TextField label='Your Location' size='small' fullWidth />
 					</Grid>
 					<Grid

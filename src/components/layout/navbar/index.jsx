@@ -31,6 +31,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import MenuCloseIcon from '@mui/icons-material/MenuOpen';
 
 // cutom imports
 import Logo from '../../logo';
@@ -58,54 +59,9 @@ ElevationScroll.propTypes = {
 	 */
 	window: PropTypes.func,
 };
-const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
 
 export default function Appbar(props) {
 	const { window } = props;
-	const [mobileOpen, setMobileOpen] = React.useState(false);
-
-	const handleDrawerToggle = () => {
-		setMobileOpen(!mobileOpen);
-	};
-
-	const drawer = (
-		<Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-			<Stack
-				direction='row'
-				spacing={1}
-				sx={{
-					py: '10px',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}
-			>
-				<Logo />
-				People Finder
-			</Stack>
-			<Divider />
-			<Stack>
-				<Button
-					sx={{ py: 1.5, justifyContent: 'flex-start', pl: 4 }}
-					startIcon={<NotificationsNoneIcon />}
-				>
-					Notifications
-				</Button>
-				<Button
-					sx={{ py: 1.5, justifyContent: 'flex-start', pl: 4 }}
-					startIcon={<HomeOutlinedIcon />}
-				>
-					Home
-				</Button>
-				<Button
-					sx={{ py: 1.5, justifyContent: 'flex-start', pl: 4 }}
-					startIcon={<ChatBubbleOutlineIcon />}
-				>
-					Chats
-				</Button>
-			</Stack>
-		</Box>
-	);
 
 	const container =
 		window !== undefined ? () => window().document.body : undefined;
@@ -134,7 +90,8 @@ export default function Appbar(props) {
 								color='inherit'
 								aria-label='open drawer'
 								edge='start'
-								onClick={handleDrawerToggle}
+								// onClick={handleDrawerToggle}
+								onClick={props.openrRightbar}
 								sx={{ display: { sm: 'none' } }}
 							>
 								<MenuIcon />
@@ -148,13 +105,13 @@ export default function Appbar(props) {
 								}}
 							>
 								<Logo />
-								<TextField
-									placeholder='# Explore'
-									size='small'
-									sx={{
-										background: (theme) => theme.palette.background.paper,
-									}}
-								/>
+								<Typography
+									variant='h6'
+									component='span'
+									sx={{ fontWeight: 700 }}
+								>
+									People Finder
+								</Typography>
 							</Stack>
 							<Stack
 								direction='row'
@@ -173,45 +130,9 @@ export default function Appbar(props) {
 							<ProfileChip />
 						</Stack>
 					</Toolbar>
-					<Card sx={{ display: { xs: 'block', md: 'none' } }}>
-						<CardContent>
-							<Box sx={{ width: 90, ml: 'auto' }}>
-								<Button
-									fullWidth
-									variant='outlined'
-									onClick={props.openrRightbar}
-								>
-									Filters
-								</Button>
-							</Box>
-						</CardContent>
-					</Card>
 				</AppBar>
 			</ElevationScroll>
 			<Toolbar />
-			<Box component='nav'>
-				<Drawer
-					container={container}
-					variant='temporary'
-					open={mobileOpen}
-					onClose={handleDrawerToggle}
-					ModalProps={{
-						keepMounted: true, // Better open performance on mobile.
-					}}
-					sx={{
-						display: { xs: 'block', sm: 'none' },
-						'& .MuiDrawer-paper': {
-							boxSizing: 'border-box',
-							width: drawerWidth,
-						},
-					}}
-				>
-					{drawer}
-				</Drawer>
-			</Box>
-			{/* <Box>
-				<Box sx={{ my: 2 }}>{props.children}</Box>
-			</Box> */}
 		</>
 	);
 }

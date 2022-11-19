@@ -1,7 +1,11 @@
+import { useEffect } from 'react';
+import Link from 'next/link';
 import React, { useState } from 'react';
-import axios from "axios";
-import { BASE_URL } from "../../constants";
-import { nameSearch } from '../../apiCalls';
+import { connect } from 'react-redux';
+import axios from 'axios';
+
+// custom imports
+import { API_END_POINT } from '../../constants/config';
 
 import {
 	Card,
@@ -19,187 +23,104 @@ import { Stack } from '@mui/system';
 
 // icons
 import MenuCloseIcon from '@mui/icons-material/MenuOpen';
+import AdjustIcon from '@mui/icons-material/Adjust';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
-const cities = [
-	'lahore',
-	'Islamabad',
-	'Karachi',
-	'Faislabad',
-	'Multan',
-	'Rawalpindi',
-];
-const ageCategory = ['10-20', '21-40', '41-50'];
+// redux actions
+import { filterByNameAction, setPosts } from '../../../redux/actions';
+import PostForm from '../../postForm';
+
 const RightBar = ({ open, openDrawer, closeDrawer }) => {
 	return (
 		<>
-			<Card>
-				<CardHeader title='Filters'></CardHeader>
-				<Content />
+			<Card sx={{ height: '100%' }}>
+				<CardContent sx={{ height: '100%' }}>
+					<Content />
+				</CardContent>
 			</Card>
 			<Drawer
 				variant='temporary'
 				elevation={16}
 				open={open}
 				onClose={closeDrawer}
-				// onOpen={openDrawer}
-				anchor='right'
+				anchor='left'
 				PaperProps={{ sx: { width: '100%', maxWidth: '450px' } }}
 				sx={{ display: { md: 'none' } }}
 			>
 				<Card>
 					<CardHeader
-						title='Filters'
+						title='People Finder'
 						action={
 							<IconButton onClick={closeDrawer}>
 								<MenuCloseIcon sx={{ transform: 'rotate(180deg)' }} />
 							</IconButton>
 						}
 					></CardHeader>
-					<Content />
+					<CardContent>
+						<Content />
+					</CardContent>
 				</Card>
 			</Drawer>
 		</>
 	);
 };
-
+const links = [
+	{ label: 'Found People', link: '/', icon: <AdjustIcon /> },
+	{
+		label: 'missing People',
+		link: 'missingPeople',
+		icon: <ReportGmailerrorredIcon />,
+	},
+];
 const Content = () => {
+	const [openModal, setOpenModal] = useState(false);
+	const handleOpen = () => setOpenModal(true);
+	const handleClose = () => setOpenModal(false);
 
-    const [personName,setPersonName]= useState("");
-	
-
-	const handleNameSearch=()=>{
-     console.log("namee",personName);
-	 let filterdData= nameSearch(personName) 
-	 // filtereddata ko sync krna hy baqi api call sy data a rha hy correctly jidr bejna hy bej dena
-	}
-	
-
-///////////////////////////////////////  bad handles
-	const handlePersonNameChange=(e)=>{
-       setPersonName(e.target.value)
-	}
- /////////////////////////////////////////////////
 	return (
-		<>
-			<CardContent>
-				<Box
-					sx={{
-						p: 2,
-						borderRadius: '20px',
-						background: (theme) => theme.palette.background.alternate,
-					}}
-				>
-					<Typography>Search Name</Typography>
-					<Box>
-						<TextField
-							fullWidth
-							label='Name'
-							size='small'
-							value={personName}
-							onChange={handlePersonNameChange}
-							sx={{
-								mt: 2,
-								// '.MuiInputBase-input.MuiOutlinedInput-input': { py: 1 },
-							}}
-						/>
-						<Box sx={{ width: '120px', mt: 1, ml: 'auto' }}>
-							<Button fullWidth variant='contained' onClick={handleNameSearch}>
-								Search
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-			</CardContent>
-			<CardContent>
-				<Box
-					sx={{
-						p: 2,
-						borderRadius: '20px',
-						background: (theme) => theme.palette.background.alternate,
-					}}
-				>
-					<Typography>Cities</Typography>
-					<Stack direction='row' sx={{ mt: 2, flexWrap: 'wrap', gap: 1 }}>
-						{cities.map((city) => {
-							return (
-								<Chip
-									key={city}
-									label={city}
-									clickable
-									sx={{
-										background: (theme) => theme.palette.background.default,
-										':hover': {
-											background: (theme) => theme.palette.background.paper,
-										},
-									}}
-								/>
-							);
-						})}
-					</Stack>
-					<Box>
-						<TextField
-							fullWidth
-							label='Search City'
-							size='small'
-							sx={{
-								mt: 2,
-								// '.MuiInputBase-input.MuiOutlinedInput-input': { py: 1 },
-							}}
-						/>
-						<Box sx={{ width: '120px', mt: 1, ml: 'auto' }}>
-							<Button fullWidth variant='contained'>
-								Search
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-			</CardContent>
-			<CardContent>
-				<Box
-					sx={{
-						p: 2,
-						borderRadius: '20px',
-						background: (theme) => theme.palette.background.alternate,
-					}}
-				>
-					<Typography>Age Range</Typography>
-					<Stack direction='row' sx={{ mt: 2, flexWrap: 'wrap', gap: 1 }}>
-						{ageCategory.map((age) => {
-							return (
-								<Chip
-									key={age}
-									label={age}
-									clickable
-									sx={{
-										background: (theme) => theme.palette.background.default,
-										':hover': {
-											background: (theme) => theme.palette.background.paper,
-										},
-									}}
-								/>
-							);
-						})}
-					</Stack>
-					<Box>
-						<TextField
-							fullWidth
-							label='Age'
-							size='small'
-							type='number'
-							sx={{
-								mt: 2,
-								// '.MuiInputBase-input.MuiOutlinedInput-input': { py: 1 },
-							}}
-						/>
-						<Box sx={{ width: '120px', mt: 1, ml: 'auto' }}>
-							<Button fullWidth variant='contained'>
-								Search
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-			</CardContent>
-		</>
+		<Box component='aside' sx={{ position: 'relative', height: '100%' }}>
+			{' '}
+			{links.map((item, index) => {
+				const { label, icon, link } = item;
+				return (
+					<Button
+						startIcon={icon}
+						fullWidth
+						key={label + index.toString()}
+						sx={{ display: 'flex', justifyContent: 'flex-start', pl: 2 }}
+					>
+						<Link
+							href={link}
+							style={{ color: 'white', textDecoration: 'none' }}
+						>
+							{label}
+						</Link>
+					</Button>
+				);
+			})}
+			<Button
+				variant='outlined'
+				fullWidth
+				sx={{
+					position: 'absolute',
+					bottom: '2rem',
+					left: '50%',
+					transform: 'translateX(-50%)',
+					py: 2,
+					fontSize: '1.1rem',
+				}}
+				onClick={handleOpen}
+			>
+				Post a &#34;Missing Post&#34;
+			</Button>
+			<PostForm open={openModal} onClose={handleClose} />
+		</Box>
 	);
 };
-export default RightBar;
+
+function mapDispatchToProps(dispatch) {
+	return {
+		setPosts: (posts) => dispatch(setPosts(posts)),
+	};
+}
+export default connect(null, mapDispatchToProps)(RightBar);

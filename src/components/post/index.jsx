@@ -19,32 +19,37 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FoundForm from '../foundFrom';
 
-const ExpandMore = styled((props) => {
-	const { expand, ...other } = props;
-	return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-	transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-	marginLeft: 'auto',
-	transition: theme.transitions.create('transform', {
-		duration: theme.transitions.duration.shortest,
-	}),
-}));
-
-export default function Post() {
+export default function Post({ post }) {
 	const [expanded, setExpanded] = React.useState(false);
 	const [openForm, setOpenForm] = React.useState(false);
+
+	const {
+		name,
+		age,
+		dateFound,
+		mentalCondition,
+		locationFound,
+		physicalCondition,
+		description,
+		pic,
+		orgnization,
+	} = post;
 
 	const handleExpandClick = () => {
 		setExpanded(!expanded);
 	};
-
 	return (
 		<>
 			<Card>
 				<CardHeader
 					avatar={
 						<Avatar
-							sx={{ height: 60, width: 60, bgcolor: red[300] }}
+							sx={{
+								height: 60,
+								width: 60,
+								bgcolor: red[300],
+								fontSize: '2rem',
+							}}
 							aria-label='Profile Pic'
 						>
 							H
@@ -55,7 +60,7 @@ export default function Post() {
 							<MoreVertIcon />
 						</IconButton>
 					}
-					title='Shrimp and Chorizo Paella'
+					title='Shah Nawaz'
 					subheader='September 14, 2016'
 				/>
 				<Button
@@ -66,23 +71,19 @@ export default function Post() {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'space-between',
+						borderRadius: 0,
 					}}
 					onClick={handleExpandClick}
 					disableRipple
 				>
 					<Typography component='span'>Details</Typography>
-					<Box
-						component='span'
-						sx={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-					>
-						<ExpandMore
-							expand={expanded}
-							onClick={handleExpandClick}
-							aria-expanded={expanded}
-							aria-label='show more'
-						>
-							<ExpandMoreIcon />
-						</ExpandMore>
+					<Box component='span'>
+						<ExpandMoreIcon
+							sx={{
+								transition: 'all ease-in 200ms',
+								transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+							}}
+						/>
 					</Box>
 				</Button>
 				<Collapse in={expanded} timeout='auto' unmountOnExit>
@@ -93,7 +94,7 @@ export default function Post() {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
-									Zulfiqar Ahmed
+									{name}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -103,7 +104,7 @@ export default function Post() {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
-									60 years
+									{age}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -113,7 +114,27 @@ export default function Post() {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
-									Ghaziabad, Multan
+									{locationFound}
+								</Typography>
+							</Grid>
+						</Grid>
+						<Grid container>
+							<Grid item xs={6}>
+								Found by:
+							</Grid>
+							<Grid item xs={6}>
+								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
+									{orgnization}
+								</Typography>
+							</Grid>
+						</Grid>
+						<Grid container>
+							<Grid item xs={6}>
+								Date found:
+							</Grid>
+							<Grid item xs={6}>
+								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
+									{dateFound}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -123,7 +144,7 @@ export default function Post() {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
-									Fine
+									{mentalCondition}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -133,19 +154,14 @@ export default function Post() {
 							</Grid>
 							<Grid item xs={6}>
 								<Typography sx={{ fontWeight: 400, color: 'GrayText' }}>
-									Paralyze
+									{physicalCondition}
 								</Typography>
 							</Grid>
 						</Grid>
 					</CardContent>
 					<CardContent>
 						<Typography>Description:</Typography>
-						<Typography sx={{ color: 'GrayText' }}>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, sed
-							minus. Ut, a officia unde odit quia tenetur aut numquam. Lorem
-							ipsum dolor sit amet consectetur adipisicing elit. Aut facilis ea
-							consequuntur dolore animi neque hic molestias minus dolor iusto.
-						</Typography>
+						<Typography sx={{ color: 'GrayText' }}>{description}</Typography>
 					</CardContent>
 				</Collapse>
 				{/* <CardMedia component='img' height='454' image='' alt='Paella dish' /> */}
@@ -158,7 +174,8 @@ export default function Post() {
 								height: '100%',
 								objectFit: 'cover',
 							}}
-							src='https://images.unsplash.com/photo-1667184537047-0ad45564a954?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
+							src='https://thumbs.dreamstime.com/b/portrait-old-pakistani-man-white-beard-peshawar-pakistan-june-portrait-old-pakistani-man-white-beard-160650853.jpg'
+							alt={name}
 						/>
 					</Box>
 				</CardContent>

@@ -1,22 +1,44 @@
-import React, { useState } from 'react';
-
-import { Box, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import axios from 'axios';
 import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import { connect } from 'react-redux';
+
+// mui imports
+import { Box, CircularProgress, Grid } from '@mui/material';
 
 // Custom imports
+import styles from '../styles/Home.module.css';
 import Layout from '../components/layout';
 import PostUploader from '../components/postUploader';
 import Post from '../components/post';
-export default function Home() {
-	const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
-	const openRightDrawer = () => {
-		setRightDrawerOpen(true);
-	};
-	const closeRightDrawer = () => {
-		setRightDrawerOpen(false);
-	};
+
+import { API_END_POINT } from '../components/constants/config';
+
+// Redux stuff
+import { setPosts, SET_POSTS } from '../redux/actions';
+
+function Home({ setPosts, posts }) {
+	const [loadingPosts, setLoadingPosts] = useState(true);
+
+	async function getAllPosts() {
+		try {
+			const response = await axios.get(`${API_END_POINT}/posts`);
+			if (response.status >= 200 && response.status <= 299) {
+				const { data } = response;
+				console.log('RESPONSE: ', data);
+				setPosts(data);
+			}
+		} catch (error) {}
+	}
+
+	useEffect(() => {
+		getAllPosts();
+		setLoadingPosts(false);
+	}, []);
+
+	console.log('posts', posts);
+
 	return (
 		<>
 			<Head>
@@ -33,28 +55,46 @@ export default function Home() {
 					minHeight: '100vh',
 				}}
 			>
-				<Layout
-					rightbar={{
-						open: rightDrawerOpen,
-						openDrawer: openRightDrawer,
-						closeDrawer: closeRightDrawer,
-					}}
-				>
-					<Grid container spacing={2}>
-						<Grid item xs={12}>
-							<PostUploader />
-						</Grid>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<PostUploader />
 					</Grid>
-					<Grid container spacing={2} sx={{ mt: 2 }}>
-						<Grid item xs={12} sm={6}>
-							<Post />
+				</Grid>
+				<Grid container spacing={2} sx={{ mt: 2 }}>
+					{loadingPosts ? (
+						<Grid
+							item
+							xs={12}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<CircularProgress />
 						</Grid>
-						<Grid item xs={12} sm={6}>
-							<Post />
-						</Grid>
-					</Grid>
-				</Layout>
+					) : (
+						posts.map((post) => {
+							return (
+								<Grid key={post.id} item xs={12} sm={6} md={4}>
+									<Post post={post} />
+								</Grid>
+							);
+						})
+					)}
+				</Grid>
 			</Box>
 		</>
 	);
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setPosts: (posts) => dispatch(setPosts(posts)),
+	};
+};
+
+const mapStateToProps = (store) => {
+	return { posts: store.posts };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
