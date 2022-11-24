@@ -1,6 +1,4 @@
 import * as React from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
 
 // mui imports
 import Box from '@mui/material/Box';
@@ -9,18 +7,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Grid, TextField } from '@mui/material';
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	boxShadow: 24,
-	borderRadius: 1,
-	p: 4,
-};
-
+// mui imports
+import CustomModal from '../common/reusableComponents/modal';
+import PhoneInput from '../common/formElements/phoneInput';
 export default function FoundForm({ open, setOpen }) {
 	const [phone, setPhone] = React.useState('+92');
 
@@ -32,13 +21,13 @@ export default function FoundForm({ open, setOpen }) {
 	}
 
 	return (
-		<Modal
+		<CustomModal
 			open={open}
 			onClose={handleClose}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 		>
-			<Box sx={style}>
+			<>
 				<Typography id='modal-modal-title' variant='h6' component='h2'>
 					Give your Contact info
 				</Typography>
@@ -53,26 +42,7 @@ export default function FoundForm({ open, setOpen }) {
 						<TextField label='Your Name' size='small' fullWidth />
 					</Grid>
 					<Grid item xs={12}>
-						<PhoneInput
-							country={'Pakistan'}
-							containerStyle={{ borderRadius: '16px' }}
-							inputStyle={{
-								background: '#1e1e1e',
-								color: '#FEFEFE',
-								borderRadius: '16px',
-								width: '100%',
-							}}
-							dropdownStyle={{ background: '#1e1e1e', color: '#FEFEFE' }}
-							value={phone}
-							onChange={(phone) => setPhone(phone)}
-							buttonStyle={{
-								background: '#1e1e1e',
-								color: '#FEFEFE',
-								'&:hover': {
-									background: '#1A1A1A',
-								},
-							}}
-						/>
+						<PhoneInput value={phone} onChange={(phone) => setPhone(phone)} />
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
@@ -92,7 +62,7 @@ export default function FoundForm({ open, setOpen }) {
 						<Button variant='contained'>Submit</Button>
 					</Grid>
 				</Grid>
-			</Box>
-		</Modal>
+			</>
+		</CustomModal>
 	);
 }

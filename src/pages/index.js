@@ -16,18 +16,32 @@ import Post from '../components/post';
 import { API_END_POINT } from '../components/constants/config';
 
 // Redux stuff
-import { setPosts, SET_POSTS } from '../redux/actions';
+import { setPosts, setUnModifiedPosts } from '../redux/actions';
+import {
+	toast,
+	Toaster,
+} from '../components/common/reusableComponents/toaster';
+import Filters from '../views/filters';
 
-function Home({ setPosts, posts }) {
+function Home({ setPosts, setUnModifiedPosts, posts }) {
 	const [loadingPosts, setLoadingPosts] = useState(true);
+	const [toast, setToast] = useState({});
 
 	async function getAllPosts() {
 		try {
 			const response = await axios.get(`${API_END_POINT}/posts`);
 			if (response.status >= 200 && response.status <= 299) {
 				const { data } = response;
-				console.log('RESPONSE: ', data);
+				// setToast({
+				// 	open: true,
+				// 	onClose: () => setToast({ ...toast, open: false }),
+				// 	message: 'SuccessFully!',
+				// 	severity: 'error',
+				// 	vertical: 'top',
+				// 	horizontal: 'right',
+				// });
 				setPosts(data);
+				setUnModifiedPosts(data);
 			}
 		} catch (error) {}
 	}
@@ -36,8 +50,6 @@ function Home({ setPosts, posts }) {
 		getAllPosts();
 		setLoadingPosts(false);
 	}, []);
-
-	console.log('posts', posts);
 
 	return (
 		<>
@@ -57,7 +69,8 @@ function Home({ setPosts, posts }) {
 			>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
-						<PostUploader />
+						{/* <PostUploader /> */}
+						<Filters />
 					</Grid>
 				</Grid>
 				<Grid container spacing={2} sx={{ mt: 2 }}>
@@ -76,7 +89,7 @@ function Home({ setPosts, posts }) {
 					) : (
 						posts.map((post) => {
 							return (
-								<Grid key={post.id} item xs={12} sm={6} md={4}>
+								<Grid key={post.id} item xs={12} sm={6} lg={4}>
 									<Post post={post} />
 								</Grid>
 							);
@@ -91,6 +104,7 @@ function Home({ setPosts, posts }) {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setPosts: (posts) => dispatch(setPosts(posts)),
+		setUnModifiedPosts: (posts) => dispatch(setUnModifiedPosts(posts)),
 	};
 };
 

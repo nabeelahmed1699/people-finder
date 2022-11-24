@@ -108,10 +108,11 @@ const Content = () => {
 					transform: 'translateX(-50%)',
 					py: 2,
 					fontSize: '1.1rem',
+					border: 2,
 				}}
 				onClick={handleOpen}
 			>
-				Post a &#34;Missing Post&#34;
+				Publish a &#34;Missing Post&#34;
 			</Button>
 			<PostForm open={openModal} onClose={handleClose} />
 		</Box>

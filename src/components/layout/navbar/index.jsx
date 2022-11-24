@@ -113,7 +113,7 @@ export default function Appbar(props) {
 									People Finder
 								</Typography>
 							</Stack>
-							<Stack
+							{/* <Stack
 								direction='row'
 								sx={{ display: { xs: 'none', sm: 'flex' } }}
 							>
@@ -126,7 +126,7 @@ export default function Appbar(props) {
 								<IconButton>
 									<NotificationsNoneIcon />
 								</IconButton>
-							</Stack>
+							</Stack> */}
 							<ProfileChip />
 						</Stack>
 					</Toolbar>

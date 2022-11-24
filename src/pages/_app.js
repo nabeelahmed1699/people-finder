@@ -11,7 +11,7 @@ import Layout from '../components/layout';
 import { setPosts, SET_POSTS } from '../redux/actions';
 import reducer from '../redux/reducer';
 
-const initialStore = { posts: [] };
+const initialStore = { posts: [], unModifiedPosts: [] };
 const store = createStore(reducer, initialStore);
 
 function MyApp({ Component, pageProps, setPosts }) {

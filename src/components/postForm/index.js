@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import { connect } from 'react-redux';
 
 // mui imports
 import {
@@ -13,24 +14,11 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import DatePickerr from '../common/datepicker';
-import { connect } from 'react-redux';
-import { setPosts } from '../../redux/actions';
 
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	p: 4,
-	width: '100%',
-	maxWidth: 400,
-	maxHeight: '70vh',
-	overflowY: 'auto',
-	bgcolor: 'background.paper',
-	boxShadow: 24,
-	borderRadius: 1,
-};
+// custom imports
+import CustomModal from '../common/reusableComponents/modal';
+import DatePickerr from '../common/formElements/datepicker';
+import { setPosts } from '../../redux/actions';
 
 const PostForm = ({ open, onClose, setPosts }) => {
 	const [name, setName] = useState('');
@@ -77,13 +65,13 @@ const PostForm = ({ open, onClose, setPosts }) => {
 	}
 
 	return (
-		<Modal
+		<CustomModal
 			open={open}
 			onClose={onClose}
 			aria-labelledby='modal-modal-title'
 			aria-describedby='modal-modal-description'
 		>
-			<Box sx={style}>
+			<>
 				<Typography id='modal-modal-title' variant='h5' component='h2'>
 					Post the Info
 				</Typography>
@@ -171,8 +159,8 @@ const PostForm = ({ open, onClose, setPosts }) => {
 						Post
 					</Button>
 				</Box>
-			</Box>
-		</Modal>
+			</>
+		</CustomModal>
 	);
 };
 
